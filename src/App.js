@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
+import Search from "./components/users/Search";
 import Navbar from "./components/layout/Navbar";
 import Users from "./components/users/Users";
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
       <Navbar />
       <div className="container">
         <h1>GitHub Users Data</h1>
+        <Search />
       </div>
       <Users users={users} />
     </div>

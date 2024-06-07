@@ -1,15 +1,15 @@
-import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Repos from "../repos/Repos";
+import axiosService from '../../api';
 const User = () => {
   const { id } = useParams();
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
   const getUser = async (username) => {
     try {
-      const response = await axios.get(
-        `https://api.github.com/users/${username}`
+      const response = await axiosService.get(
+        `/users/${username}`
       );
       const data = response.data;
       setUser(data);
@@ -19,19 +19,19 @@ const User = () => {
   };
   const getUserRepos = async (id) => {
     try {
-        const response = await axios.get(
-          `https://api.github.com/users/${id}/repos`
-        );
-        const data = response.data;
-        setRepos(data);
-      } catch (error) {
-        console.error("Error fetching repos:", error.message);
-      }
+      const response = await axiosService.get(
+        `/users/${id}/repos`
+      );
+      const data = response.data;
+      setRepos(data);
+    } catch (error) {
+      console.error("Error fetching repos:", error.message);
+    }
   };
   useEffect(() => {
     getUser(id);
     getUserRepos(id);
-  }, []);
+  }, [id]);
   const {
     name,
     avatar_url,

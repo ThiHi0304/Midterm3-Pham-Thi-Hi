@@ -1,11 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useParams, useHistory } from "react-router-dom";
 import Repos from "../repos/Repos";
 import axiosService from '../../api';
+
 const User = () => {
   const { id } = useParams();
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
+  const history = useHistory();
+
   const getUser = async (username) => {
     try {
       const response = await axiosService.get(
@@ -17,6 +20,7 @@ const User = () => {
       console.error("Error fetching data:", error.message);
     }
   };
+
   const getUserRepos = async (id) => {
     try {
       const response = await axiosService.get(
@@ -28,10 +32,12 @@ const User = () => {
       console.error("Error fetching repos:", error.message);
     }
   };
+
   useEffect(() => {
     getUser(id);
     getUserRepos(id);
   }, [id]);
+
   const {
     name,
     avatar_url,
@@ -47,11 +53,12 @@ const User = () => {
     public_gists,
     hireable,
   } = user;
+
   return (
     <Fragment>
-      <Link to="/" className="btn btn-light">
+      <button className="btn btn-light" onClick={() => history.goBack()}>
         Back to Search
-      </Link>
+      </button>
       Hireable:{" "}
       {hireable ? (
         <i className="fas fa-check text-success" />
@@ -124,4 +131,5 @@ const User = () => {
     </Fragment>
   );
 };
+
 export default User;
